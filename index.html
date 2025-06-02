@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Direct Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ae8;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #34c759;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        a:hover {
+            background-color: #2ca84c;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Google Drive Direct Download</h1>
+        <input type="text" id="driveLink" placeholder="Paste Google Drive URL here">
+        <button onclick="generateLink()">Generate Download Link</button>
+        <div id="downloadLink"></div>
+        <div id="error"></div>
+    </div>
+    <script>
+        function generateLink() {
+            const input = document.getElementById('driveLink').value;
+            const errorDiv = document.getElementById('error');
+            const downloadLinkDiv = document.getElementById('downloadLink');
+            errorDiv.textContent = '';
+            downloadLinkDiv.innerHTML = '';
+
+            // Regular expression to match Google Drive file URL and extract file ID
+            const regex = /\/file\/d\/([a-zA-Z0-9_-]+)/;
+            const match = input.match(regex);
+
+            if (match && match[1]) {
+                const fileId = match[1];
+                const directLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                downloadLinkDiv.innerHTML = `<a href="${directLink}" target="_blank">Download Now</a>`;
+            } else {
+                errorDiv.textContent = 'Invalid Google Drive URL. Please ensure it is a valid file URL.';
+            }
+        }
+    </script>
+</body>
+</html>
